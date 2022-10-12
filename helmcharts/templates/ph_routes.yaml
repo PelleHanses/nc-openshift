@@ -1,0 +1,78 @@
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: nc-srv
+  namespace: nc-fk3
+  uid: b7bcbf1c-e053-43ec-b8d8-34130bb76caf
+  resourceVersion: '253791'
+  creationTimestamp: '2022-10-12T11:06:55Z'
+  labels:
+    app: nc-srv
+    app.kubernetes.io/component: nc-srv
+    app.kubernetes.io/instance: nc-srv
+    app.kubernetes.io/name: nc-srv
+    app.kubernetes.io/part-of: nc-app
+    app.openshift.io/runtime-version: '0.47'
+  annotations:
+    openshift.io/host.generated: 'true'
+  managedFields:
+    - manager: Mozilla
+      operation: Update
+      apiVersion: route.openshift.io/v1
+      time: '2022-10-12T11:06:55Z'
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:metadata':
+          'f:labels':
+            .: {}
+            'f:app': {}
+            'f:app.kubernetes.io/component': {}
+            'f:app.kubernetes.io/instance': {}
+            'f:app.kubernetes.io/name': {}
+            'f:app.kubernetes.io/part-of': {}
+            'f:app.openshift.io/runtime-version': {}
+        'f:spec':
+          'f:port':
+            .: {}
+            'f:targetPort': {}
+          'f:tls':
+            .: {}
+            'f:insecureEdgeTerminationPolicy': {}
+            'f:termination': {}
+          'f:to':
+            'f:kind': {}
+            'f:name': {}
+            'f:weight': {}
+          'f:wildcardPolicy': {}
+    - manager: openshift-router
+      operation: Update
+      apiVersion: route.openshift.io/v1
+      time: '2022-10-12T11:06:55Z'
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:status':
+          'f:ingress': {}
+      subresource: status
+spec:
+  host: nc-srv-nc-fk3.apps-crc.testing
+  to:
+    kind: Service
+    name: nc-srv
+    weight: 100
+  port:
+    targetPort: 80-tcp
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect
+  wildcardPolicy: None
+status:
+  ingress:
+    - host: nc-srv-nc-fk3.apps-crc.testing
+      routerName: default
+      conditions:
+        - type: Admitted
+          status: 'True'
+          lastTransitionTime: '2022-10-12T11:06:55Z'
+      wildcardPolicy: None
+      routerCanonicalHostname: router-default.apps-crc.testing
+

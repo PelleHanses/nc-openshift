@@ -1,0 +1,70 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: nc-srv
+  namespace: nc-fk3
+  uid: f8be5719-cb71-4317-b329-90d229eff854
+  resourceVersion: '253980'
+  creationTimestamp: '2022-10-12T11:06:55Z'
+  labels:
+    app: nc-srv
+    app.kubernetes.io/component: nc-srv
+    app.kubernetes.io/instance: nc-srv
+    app.kubernetes.io/name: nc-srv
+    app.kubernetes.io/part-of: nc-app
+    app.openshift.io/runtime-version: '0.47'
+  annotations:
+    openshift.io/generated-by: OpenShiftWebConsole
+  managedFields:
+    - manager: Mozilla
+      operation: Update
+      apiVersion: v1
+      time: '2022-10-12T11:06:55Z'
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:metadata':
+          'f:annotations':
+            .: {}
+            'f:openshift.io/generated-by': {}
+          'f:labels':
+            .: {}
+            'f:app': {}
+            'f:app.kubernetes.io/component': {}
+            'f:app.kubernetes.io/instance': {}
+            'f:app.kubernetes.io/name': {}
+            'f:app.kubernetes.io/part-of': {}
+            'f:app.openshift.io/runtime-version': {}
+        'f:spec':
+          'f:internalTrafficPolicy': {}
+          'f:ports':
+            .: {}
+            'k:{"port":80,"protocol":"TCP"}':
+              .: {}
+              'f:name': {}
+              'f:port': {}
+              'f:protocol': {}
+              'f:targetPort': {}
+          'f:selector': {}
+          'f:sessionAffinity': {}
+          'f:type': {}
+spec:
+  clusterIP: 10.217.5.95
+  ipFamilies:
+    - IPv4
+  ports:
+    - name: 80-tcp
+      protocol: TCP
+      port: 80
+      targetPort: 8080
+  internalTrafficPolicy: Cluster
+  clusterIPs:
+    - 10.217.5.95
+  type: ClusterIP
+  ipFamilyPolicy: SingleStack
+  sessionAffinity: None
+  selector:
+    app: nc-srv
+    deployment: nc-srv
+status:
+  loadBalancer: {}
+

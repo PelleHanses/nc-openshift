@@ -1,0 +1,195 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  annotations:
+    alpha.image.policy.openshift.io/resolve-names: '*'
+    app.openshift.io/route-disabled: 'false'
+    deployment.kubernetes.io/revision: '1'
+    image.openshift.io/triggers: >-
+      [{"from":{"kind":"ImageStreamTag","name":"nc-srv:0.47","namespace":"nc-fk3"},"fieldPath":"spec.template.spec.containers[?(@.name==\"nc-srv\")].image","pause":"false"}]
+    openshift.io/generated-by: OpenShiftWebConsole
+  resourceVersion: '253828'
+  name: nc-srv
+  uid: cd69fc13-8615-460c-8e59-30929899f801
+  creationTimestamp: '2022-10-12T11:06:55Z'
+  generation: 1
+  managedFields:
+    - manager: Mozilla
+      operation: Update
+      apiVersion: apps/v1
+      time: '2022-10-12T11:06:55Z'
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:metadata':
+          'f:annotations':
+            .: {}
+            'f:alpha.image.policy.openshift.io/resolve-names': {}
+            'f:app.openshift.io/route-disabled': {}
+            'f:image.openshift.io/triggers': {}
+            'f:openshift.io/generated-by': {}
+          'f:labels':
+            .: {}
+            'f:app': {}
+            'f:app.kubernetes.io/component': {}
+            'f:app.kubernetes.io/instance': {}
+            'f:app.kubernetes.io/name': {}
+            'f:app.kubernetes.io/part-of': {}
+            'f:app.openshift.io/runtime-namespace': {}
+        'f:spec':
+          'f:progressDeadlineSeconds': {}
+          'f:replicas': {}
+          'f:revisionHistoryLimit': {}
+          'f:selector': {}
+          'f:strategy':
+            'f:rollingUpdate':
+              .: {}
+              'f:maxSurge': {}
+              'f:maxUnavailable': {}
+            'f:type': {}
+          'f:template':
+            'f:metadata':
+              'f:annotations':
+                .: {}
+                'f:openshift.io/generated-by': {}
+              'f:labels':
+                .: {}
+                'f:app': {}
+                'f:deployment': {}
+            'f:spec':
+              'f:containers':
+                'k:{"name":"nc-srv"}':
+                  'f:image': {}
+                  'f:volumeMounts':
+                    .: {}
+                    'k:{"mountPath":"/var/www/html"}':
+                      .: {}
+                      'f:mountPath': {}
+                      'f:name': {}
+                  'f:terminationMessagePolicy': {}
+                  .: {}
+                  'f:resources': {}
+                  'f:terminationMessagePath': {}
+                  'f:imagePullPolicy': {}
+                  'f:ports':
+                    .: {}
+                    'k:{"containerPort":80,"protocol":"TCP"}':
+                      .: {}
+                      'f:containerPort': {}
+                      'f:protocol': {}
+                  'f:name': {}
+              'f:dnsPolicy': {}
+              'f:restartPolicy': {}
+              'f:schedulerName': {}
+              'f:securityContext': {}
+              'f:terminationGracePeriodSeconds': {}
+              'f:volumes':
+                .: {}
+                'k:{"name":"nc-srv-1"}':
+                  .: {}
+                  'f:emptyDir': {}
+                  'f:name': {}
+    - manager: kube-controller-manager
+      operation: Update
+      apiVersion: apps/v1
+      time: '2022-10-12T11:06:59Z'
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:metadata':
+          'f:annotations':
+            'f:deployment.kubernetes.io/revision': {}
+        'f:status':
+          'f:availableReplicas': {}
+          'f:conditions':
+            .: {}
+            'k:{"type":"Available"}':
+              .: {}
+              'f:lastTransitionTime': {}
+              'f:lastUpdateTime': {}
+              'f:message': {}
+              'f:reason': {}
+              'f:status': {}
+              'f:type': {}
+            'k:{"type":"Progressing"}':
+              .: {}
+              'f:lastTransitionTime': {}
+              'f:lastUpdateTime': {}
+              'f:message': {}
+              'f:reason': {}
+              'f:status': {}
+              'f:type': {}
+          'f:observedGeneration': {}
+          'f:readyReplicas': {}
+          'f:replicas': {}
+          'f:updatedReplicas': {}
+      subresource: status
+  namespace: nc-fk3
+  labels:
+    app: nc-srv
+    app.kubernetes.io/component: nc-srv
+    app.kubernetes.io/instance: nc-srv
+    app.kubernetes.io/name: nc-srv
+    app.kubernetes.io/part-of: nc-app
+    app.openshift.io/runtime-namespace: nc-fk3
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nc-srv
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: nc-srv
+        deployment: nc-srv
+      annotations:
+        openshift.io/generated-by: OpenShiftWebConsole
+    spec:
+      volumes:
+        - name: nc-srv-1
+          emptyDir: {}
+      containers:
+        - name: nc-srv
+          image: >-
+            image-registry.openshift-image-registry.svc:5000/nc-fk3/nc-srv@sha256:29e9b669d6f248156bf89929c28d458fbe1b4aac59cba65b217b42a38b55c240
+          ports:
+            - containerPort: 80
+              protocol: TCP
+          resources: {}
+          volumeMounts:
+            - name: nc-srv-1
+              mountPath: /var/www/html
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          imagePullPolicy: IfNotPresent
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+      securityContext: {}
+      schedulerName: default-scheduler
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 25%
+      maxSurge: 25%
+  revisionHistoryLimit: 10
+  progressDeadlineSeconds: 600
+status:
+  observedGeneration: 1
+  replicas: 1
+  updatedReplicas: 1
+  readyReplicas: 1
+  availableReplicas: 1
+  conditions:
+    - type: Available
+      status: 'True'
+      lastUpdateTime: '2022-10-12T11:06:59Z'
+      lastTransitionTime: '2022-10-12T11:06:59Z'
+      reason: MinimumReplicasAvailable
+      message: Deployment has minimum availability.
+    - type: Progressing
+      status: 'True'
+      lastUpdateTime: '2022-10-12T11:06:59Z'
+      lastTransitionTime: '2022-10-12T11:06:55Z'
+      reason: NewReplicaSetAvailable
+      message: ReplicaSet "nc-srv-7f444d7cc7" has successfully progressed.
+
