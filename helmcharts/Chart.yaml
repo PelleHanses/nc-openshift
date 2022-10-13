@@ -1,5 +1,5 @@
 apiVersion: v2
-name: nextcloud-openshift
+name: nextcloud
 description: A Helm chart for Openshift. A file sharing server that puts the control and security of your own data back into your hands.
 keywords:
 - nextcloud
@@ -38,16 +38,16 @@ sources:
 maintainers:
 - name: Pelle Hanses
   email: pelle.hanses@forsakringskassan.se
-dependencies:
-- name: postgresql
-  version: 11.6.*
-  repository: https://charts.bitnami.com/bitnami
-  condition: postgresql.enabled
-- name: mariadb
-  version: 11.0.*
-  repository: https://charts.bitnami.com/bitnami
-  condition: mariadb.enabled
-- name: redis
-  version: 16.12.*
-  repository: https://charts.bitnami.com/bitnami
-  condition: redis.enabled
+#dependencies:
+#- name: postgresql
+#  version: 11.6.*
+#  repository: https://charts.bitnami.com/bitnami
+#  condition: postgresql.enabled
+#- name: mariadb
+#  version: 11.0.*
+#  repository: https://charts.bitnami.com/bitnami
+#  condition: mariadb.enabled
+#- name: redis
+#  version: 16.12.*
+#  repository: https://charts.bitnami.com/bitnami
+#  condition: redis.enabled
