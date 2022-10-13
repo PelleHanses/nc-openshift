@@ -28,7 +28,7 @@ spec:
     - port: {{ .Values.service.port }}
       name: 80-tcp
       protocol: TCP
-      targetPort: 8080
+      targetPort: {{ include "nextcloud.containerPort" . }}
   internalTrafficPolicy: Cluster
   clusterIPs:
     - 10.217.5.95
