@@ -1,60 +1,33 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: nc-srv
-  namespace: nc-fk3
+  name: {{ template "nextcloud.fullname" . }}
+  # Behövs denna (namespace)?
+  namespace: {{ include "nextcloud.name" . }}
   uid: f8be5719-cb71-4317-b329-90d229eff854
   resourceVersion: '253980'
   creationTimestamp: '2022-10-12T11:06:55Z'
   labels:
     app: nc-srv
-    app.kubernetes.io/component: nc-srv
-    app.kubernetes.io/instance: nc-srv
-    app.kubernetes.io/name: nc-srv
-    app.kubernetes.io/part-of: nc-app
-    app.openshift.io/runtime-version: '0.47'
+    app.kubernetes.io/component: app
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/name: {{ include "nextcloud.name" . }}
+    app.kubernetes.io/part-of: {{ include "nextcloud.name" . }}
+#    app.openshift.io/runtime-version: {{ .Values.image.tag }}
   annotations:
     openshift.io/generated-by: OpenShiftWebConsole
-  managedFields:
-    - manager: Mozilla
-      operation: Update
-      apiVersion: v1
-      time: '2022-10-12T11:06:55Z'
-      fieldsType: FieldsV1
-      fieldsV1:
-        'f:metadata':
-          'f:annotations':
-            .: {}
-            'f:openshift.io/generated-by': {}
-          'f:labels':
-            .: {}
-            'f:app': {}
-            'f:app.kubernetes.io/component': {}
-            'f:app.kubernetes.io/instance': {}
-            'f:app.kubernetes.io/name': {}
-            'f:app.kubernetes.io/part-of': {}
-            'f:app.openshift.io/runtime-version': {}
-        'f:spec':
-          'f:internalTrafficPolicy': {}
-          'f:ports':
-            .: {}
-            'k:{"port":80,"protocol":"TCP"}':
-              .: {}
-              'f:name': {}
-              'f:port': {}
-              'f:protocol': {}
-              'f:targetPort': {}
-          'f:selector': {}
-          'f:sessionAffinity': {}
-          'f:type': {}
 spec:
-  clusterIP: 10.217.5.95
+  type: {{ .Values.service.type }}
+  {{- if eq .Values.service.type "LoadBalancer" }}
+  loadBalancerIP: {{ default "" .Values.service.loadBalancerIP }}
+  {{- end }}
+#  clusterIP: 10.217.5.95
   ipFamilies:
     - IPv4
   ports:
-    - name: 80-tcp
+    - port: {{ .Values.service.port }}
+      name: 80-tcp
       protocol: TCP
-      port: 80
       targetPort: 8080
   internalTrafficPolicy: Cluster
   clusterIPs:
@@ -63,8 +36,9 @@ spec:
   ipFamilyPolicy: SingleStack
   sessionAffinity: None
   selector:
-    app: nc-srv
-    deployment: nc-srv
+    app: {{ include "nextcloud.name" . }}
+    deployment: {{ include "nextcloud.name" . }}
+    app.kubernetes.io/component: app
 status:
   loadBalancer: {}
 
