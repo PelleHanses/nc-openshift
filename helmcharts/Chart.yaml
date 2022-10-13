@@ -1,7 +1,14 @@
 apiVersion: v2
-name: ncfk
-description: A Helm chart for Kubernetes
-
+name: nextcloud-openshift
+description: A Helm chart for Openshift. A file sharing server that puts the control and security of your own data back into your hands.
+keywords:
+- nextcloud
+- storage
+- http
+- web
+- php
+home: https://nextcloud.com/
+icon: https://upload.wikimedia.org/wikipedia/commons/6/60/Nextcloud_Logo.svg
 # A chart can be either an 'application' or a 'library' chart.
 #
 # Application charts are a collection of templates that can be packaged into versioned archives
@@ -15,10 +22,32 @@ type: application
 # This is the chart version. This version number should be incremented each time you make changes
 # to the chart and its templates, including the app version.
 # Versions are expected to follow Semantic Versioning (https://semver.org/)
-version: 0.1.0
+version: 0.1.1
 
 # This is the version number of the application being deployed. This version number should be
 # incremented each time you make changes to the application. Versions are not expected to
 # follow Semantic Versioning. They should reflect the version the application is using.
 # It is recommended to use it with quotes.
 appVersion: "1.16.0"
+
+sources:
+- https://github.com/PelleHanses/nc-openshift
+# Original source
+# - https://github.com/nextcloud/helm
+# - https://github.com/nextcloud/docker
+maintainers:
+- name: Pelle Hanses
+  email: pelle.hanses@forsakringskassan.se
+dependencies:
+- name: postgresql
+  version: 11.6.*
+  repository: https://charts.bitnami.com/bitnami
+  condition: postgresql.enabled
+- name: mariadb
+  version: 11.0.*
+  repository: https://charts.bitnami.com/bitnami
+  condition: mariadb.enabled
+- name: redis
+  version: 16.12.*
+  repository: https://charts.bitnami.com/bitnami
+  condition: redis.enabled
