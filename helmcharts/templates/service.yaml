@@ -1,44 +1,26 @@
-kind: Service
 apiVersion: v1
+kind: Service
 metadata:
   name: {{ template "nextcloud.fullname" . }}
-  # Behövs denna (namespace)?
-  namespace: {{ include "nextcloud.name" . }}
-  uid: f8be5719-cb71-4317-b329-90d229eff854
-  resourceVersion: '253980'
-  creationTimestamp: '2022-10-12T11:06:55Z'
   labels:
-    app: nc-srv
-    app.kubernetes.io/component: app
-    app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/name: {{ include "nextcloud.name" . }}
-    app.kubernetes.io/part-of: {{ include "nextcloud.name" . }}
-#    app.openshift.io/runtime-version: {{ .Values.image.tag }}
-  annotations:
-    openshift.io/generated-by: OpenShiftWebConsole
+    helm.sh/chart: {{ include "nextcloud.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/component: app
 spec:
   type: {{ .Values.service.type }}
   {{- if eq .Values.service.type "LoadBalancer" }}
   loadBalancerIP: {{ default "" .Values.service.loadBalancerIP }}
   {{- end }}
-#  clusterIP: 10.217.5.95
-  ipFamilies:
-    - IPv4
   ports:
-    - port: {{ .Values.service.port }}
-      name: 80-tcp
-      protocol: TCP
-      targetPort: {{ include "nextcloud.containerPort" . }}
-  internalTrafficPolicy: Cluster
-  clusterIPs:
-    - 10.217.5.95
-  type: ClusterIP
-  ipFamilyPolicy: SingleStack
-  sessionAffinity: None
+  - port: {{ .Values.service.port }}
+    targetPort: http
+    protocol: TCP
+    name: http
+    {{- if eq .Values.service.type "NodePort" }}
+    nodePort: {{ default "" .Values.service.nodePort}}
+    {{- end }}
   selector:
-    app: {{ include "nextcloud.name" . }}
-    deployment: {{ include "nextcloud.name" . }}
+    app.kubernetes.io/name: {{ include "nextcloud.name" . }}
     app.kubernetes.io/component: app
-status:
-  loadBalancer: {}
-

@@ -1,6 +1,8 @@
 apiVersion: v2
 name: nextcloud
-description: A Helm chart for Openshift. A file sharing server that puts the control and security of your own data back into your hands.
+version: 3.1.2
+appVersion: 24.0.5
+description: A file sharing server that puts the control and security of your own data back into your hands.
 keywords:
 - nextcloud
 - storage
@@ -8,46 +10,27 @@ keywords:
 - web
 - php
 home: https://nextcloud.com/
-icon: https://upload.wikimedia.org/wikipedia/commons/6/60/Nextcloud_Logo.svg
-# A chart can be either an 'application' or a 'library' chart.
-#
-# Application charts are a collection of templates that can be packaged into versioned archives
-# to be deployed.
-#
-# Library charts provide useful utilities or functions for the chart developer. They're included as
-# a dependency of application charts to inject those utilities and functions into the rendering
-# pipeline. Library charts do not define any templates and therefore cannot be deployed.
-type: application
-
-# This is the chart version. This version number should be incremented each time you make changes
-# to the chart and its templates, including the app version.
-# Versions are expected to follow Semantic Versioning (https://semver.org/)
-version: 0.1.1
-
-# This is the version number of the application being deployed. This version number should be
-# incremented each time you make changes to the application. Versions are not expected to
-# follow Semantic Versioning. They should reflect the version the application is using.
-# It is recommended to use it with quotes.
-appVersion: "1.16.0"
-
+icon: https://cdn.rawgit.com/docker-library/docs/defa5ffc7123177acd60ddef6e16bddf694cc35f/nextcloud/logo.svg
 sources:
-- https://github.com/PelleHanses/nc-openshift
-# Original source
-# - https://github.com/nextcloud/helm
-# - https://github.com/nextcloud/docker
+- https://github.com/nextcloud/helm
+- https://github.com/nextcloud/docker
 maintainers:
-- name: Pelle Hanses
-  email: pelle.hanses@forsakringskassan.se
-#dependencies:
-#- name: postgresql
-#  version: 11.6.*
-#  repository: https://charts.bitnami.com/bitnami
-#  condition: postgresql.enabled
-#- name: mariadb
-#  version: 11.0.*
-#  repository: https://charts.bitnami.com/bitnami
-#  condition: mariadb.enabled
-#- name: redis
-#  version: 16.12.*
-#  repository: https://charts.bitnami.com/bitnami
-#  condition: redis.enabled
+- name: skjnldsv
+  email: skjnldsv@protonmail.com
+- name: chrisingenhaag
+  email: christian.ingenhaag@googlemail.com
+- name: billimek
+  email: jeff@billimek.com
+dependencies:
+- name: postgresql
+  version: 11.6.*
+  repository: https://charts.bitnami.com/bitnami
+  condition: postgresql.enabled
+- name: mariadb
+  version: 11.0.*
+  repository: https://charts.bitnami.com/bitnami
+  condition: mariadb.enabled
+- name: redis
+  version: 16.12.*
+  repository: https://charts.bitnami.com/bitnami
+  condition: redis.enabled

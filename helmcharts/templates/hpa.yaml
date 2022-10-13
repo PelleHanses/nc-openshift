@@ -1,28 +1,20 @@
-{{- if .Values.autoscaling.enabled }}
-apiVersion: autoscaling/v2beta1
+{{- if .Values.hpa.enabled -}}
+apiVersion: autoscaling/v1
 kind: HorizontalPodAutoscaler
 metadata:
-  name: {{ include "NCFK.fullname" . }}
+  name: {{ template "nextcloud.fullname" . }}
   labels:
-    {{- include "NCFK.labels" . | nindent 4 }}
+    app.kubernetes.io/name: {{ include "nextcloud.name" . }}
+    helm.sh/chart: {{ include "nextcloud.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/component: app
 spec:
   scaleTargetRef:
-    apiVersion: apps/v1
     kind: Deployment
-    name: {{ include "NCFK.fullname" . }}
-  minReplicas: {{ .Values.autoscaling.minReplicas }}
-  maxReplicas: {{ .Values.autoscaling.maxReplicas }}
-  metrics:
-    {{- if .Values.autoscaling.targetCPUUtilizationPercentage }}
-    - type: Resource
-      resource:
-        name: cpu
-        targetAverageUtilization: {{ .Values.autoscaling.targetCPUUtilizationPercentage }}
-    {{- end }}
-    {{- if .Values.autoscaling.targetMemoryUtilizationPercentage }}
-    - type: Resource
-      resource:
-        name: memory
-        targetAverageUtilization: {{ .Values.autoscaling.targetMemoryUtilizationPercentage }}
-    {{- end }}
+    apiVersion: apps/v1
+    name: {{ template "nextcloud.fullname" . }}
+  minReplicas: {{ .Values.hpa.minPods }}
+  maxReplicas: {{ .Values.hpa.maxPods }}
+  targetCPUUtilizationPercentage: {{ .Values.hpa.cputhreshold }}
 {{- end }}

@@ -1,46 +1,18 @@
-## Nextcloud for Openshift 4.x
-##  Rebuild of Official nextcloud image version
-## This is a YAML-formatted file.
-## Declare variables to be passed into your templates.
-## Image to use are Nextclouds official image rebuild with port 8080 and port 8443 for Apache.
+## Official nextcloud image version
 ## ref: https://hub.docker.com/r/library/nextcloud/tags/
 ##
 image:
   repository: pellehanses/nc
-  tag: "0.47"
+  tag: 0.47
   # tag: 24.0.3-apache
   pullPolicy: IfNotPresent
   # pullSecrets:
   #   - myRegistrKeySecretName
 
-## Special
-imagePullSecrets: []
-podSecurityContext: {}
-  # fsGroup: 2000
-
-## Special for Openshift
-securityContext: {}
-  # capabilities:
-  #   drop:
-  #   - ALL
-  # readOnlyRootFilesystem: true
-  # runAsNonRoot: true
-  # runAsUser: 1000
-
 nameOverride: ""
 fullnameOverride: ""
 podAnnotations: {}
 deploymentAnnotations: {}
-
-## Special for Openshift
-serviceAccount:
-  # Specifies whether a service account should be created
-  create: true
-  # Annotations to add to the service account
-  annotations: {}
-  # The name of the service account to use.
-  # If not set and create is true, a name is generated using the fullname template
-  name: ""
 
 # Number of replicas to be deployed
 replicaCount: 1
@@ -51,8 +23,6 @@ replicaCount: 1
 ingress:
   enabled: false
   # className: nginx
-  ## Change, Pelle
-  className: ""
   annotations: {}
   #  nginx.ingress.kubernetes.io/proxy-body-size: 4G
   #  kubernetes.io/tls-acme: "true"
@@ -81,14 +51,6 @@ ingress:
   #    location ~ ^/(?:autotest|occ|issue|indie|db_|console) {
   #      deny all;
   #    }
-  ## Change, Pelle
-  hosts:
-    - host: ""
-      paths:
-        - path: /
-          pathType: ImplementationSpecific
-  ## Change, Pelle
-  tls: []
   # tls:
   #   - secretName: nextcloud-tls
   #     hosts:
@@ -96,7 +58,6 @@ ingress:
   labels: {}
   path: /
   pathType: Prefix
-  
 
 
 # Allow configuration of lifecycle hooks
@@ -124,7 +85,7 @@ nextcloud:
     # smtpPasswordKey: smtp_password
   update: 0
   # If web server is not binding default port, you can define it
-  containerPort: 8080
+  # containerPort: 8080
   datadir: /var/www/html/data
   persistence:
     subPath:
@@ -373,8 +334,7 @@ cronjob:
 
 service:
   type: ClusterIP
-  ## Changed, Pelle
-  port: 80
+  port: 8080
   loadBalancerIP: nil
   nodePort: nil
 
@@ -459,14 +419,6 @@ hpa:
   cputhreshold: 60
   minPods: 1
   maxPods: 10
-  
-## Special for Openshift
-autoscaling:
-  enabled: false
-  minReplicas: 1
-  maxReplicas: 100
-  targetCPUUtilizationPercentage: 80
-  # targetMemoryUtilizationPercentage: 80
 
 nodeSelector: {}
 
